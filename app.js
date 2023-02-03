@@ -33,6 +33,7 @@ app.all('*', function (req, res, next) {
 
 app.post("/chatgpt", async (req, res) => {
     try{
+        
         const conversationId = req?.body?.conversation_id
         const parentMessageId = req?.body?.parent_message_id
         let subject = req?.body?.subject
@@ -40,11 +41,14 @@ app.post("/chatgpt", async (req, res) => {
             return res.json({ code: 1, msg: 'subject error' })
         }
         const api = new ChatGPTAPI({ 
-            apiKey: process.env.OPENAI_API_KEY
+            apiKey: process.env.OPENAI_API_KEY,
+            completionParams: {
+                model: 'text-davinci-003'
+            }
         })
         let params = {
             promptPrefix: `You are ChatGPT, a large language model trained by OpenAI. For each answer, you should answer as comprehensively as possible. It is important to answer as comprehensively as possible, so keep this in mind.
-            Current date: ${new Date().toISOString()}\n`,
+            Current date: ${new Date().toISOString()}\n\n`,
             promptSuffix: `\n return the result in Chinese.\n ChatGPT:\n`
         }
         let response
@@ -72,6 +76,7 @@ app.post("/chatgpt", async (req, res) => {
         logger.error("ERROR_TIME:"+getCurrentTime())
         logger.error("ERROR:" + err.toString())
         logger.error("--------------------------------")
+        console.log(err)
         return res.json({ code: 1, msg: "服务繁忙,请重试" })
     }
     
