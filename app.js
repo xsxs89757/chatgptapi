@@ -44,24 +44,17 @@ app.post("/chatgpt", async (req, res) => {
             apiKey: process.env.OPENAI_API_KEY,
             completionParams: {
                 model: 'text-davinci-003'
-            }
+            },
+            debug: true
         })
-        // let params = {
-        //     promptPrefix: `You are ChatGPT, a large language model trained by OpenAI. For each answer, you should answer as comprehensively as possible. It is important to answer as comprehensively as possible, so keep this in mind.
-        //     Current date: ${new Date().toISOString()}\n\n`,
-        //     promptSuffix: `\n return the result in Chinese.\n ChatGPT:\n`
-        // }
         let params = {
-            promptPrefix: `You are ChatGPT, a large language model trained by OpenAI.\n\n`,
-            promptSuffix: `\n return the result in Chinese.Bot:\n`
+            promptPrefix: `You are ChatGPT, a large language model trained by OpenAI. For each answer, you should answer as comprehensively as possible. It is important to answer as comprehensively as possible, so keep this in mind.
+            Current date: ${new Date().toISOString()}\n\n`,
+            promptSuffix: `\n return the result in Chinese.\n ChatGPT:\n`
         }
+
         let response
         if (conversationId && parentMessageId){
-            // console.log({
-            //     conversationId,
-            //     parentMessageId,
-            //     ...params
-            // })
             response = await api.sendMessage(subject, {
                 conversationId,
                 parentMessageId,
