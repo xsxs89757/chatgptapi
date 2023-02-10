@@ -52,8 +52,8 @@ app.post("/chatgpt", async (req, res) => {
         //     promptSuffix: `\n return the result in Chinese.\n ChatGPT:\n`
         // }
         let params = {
-            promptPrefix: `\n\n`,
-            promptSuffix: `\n`
+            promptPrefix: `You are ChatGPT, a large language model trained by OpenAI.\n\n`,
+            promptSuffix: `\n return the result in Chinese.Bot:\n`
         }
         let response
         if (conversationId && parentMessageId){
