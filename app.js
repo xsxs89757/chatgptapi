@@ -46,10 +46,14 @@ app.post("/chatgpt", async (req, res) => {
                 model: 'text-davinci-003'
             }
         })
+        // let params = {
+        //     promptPrefix: `You are ChatGPT, a large language model trained by OpenAI. For each answer, you should answer as comprehensively as possible. It is important to answer as comprehensively as possible, so keep this in mind.
+        //     Current date: ${new Date().toISOString()}\n\n`,
+        //     promptSuffix: `\n return the result in Chinese.\n ChatGPT:\n`
+        // }
         let params = {
-            promptPrefix: `You are ChatGPT, a large language model trained by OpenAI. For each answer, you should answer as comprehensively as possible. It is important to answer as comprehensively as possible, so keep this in mind.
-            Current date: ${new Date().toISOString()}\n\n`,
-            promptSuffix: `\n return the result in Chinese.\n ChatGPT:\n`
+            promptPrefix: `\n\n`,
+            promptSuffix: `\n`
         }
         let response
         if (conversationId && parentMessageId){
