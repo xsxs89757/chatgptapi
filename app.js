@@ -44,8 +44,7 @@ app.post("/chatgpt", async (req, res) => {
             apiKey: process.env.OPENAI_API_KEY,
             completionParams: {
                 model: 'text-davinci-003'
-            },
-            debug: true
+            }
         })
         let params = {
             promptPrefix: `You are ChatGPT, a large language model trained by OpenAI. For each answer, you should answer as comprehensively as possible. It is important to answer as comprehensively as possible, so keep this in mind.
