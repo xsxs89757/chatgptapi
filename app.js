@@ -5,6 +5,7 @@ import bodyParser from "body-parser";
 import * as winston from "winston";
 import 'winston-daily-rotate-file';
 import { ChatGPTAPI } from 'chatgpt'
+import ExpiryMap from 'expiry-map'
 
 dotenv.config()
 const app = express()
@@ -32,6 +33,8 @@ app.all('*', function (req, res, next) {
 })
 
 let clients = [];
+
+const map = new ExpiryMap(6 * 60 * 1000)
 
 app.get('/status', (request, response) => response.json({clients: clients.length}));
 
@@ -74,7 +77,6 @@ function sendEventsToAll(text, clientId) {
 
 app.post("/chatgpt", async (req, res) => {
     try{
-        
         const conversationId = req?.body?.conversation_id
         const parentMessageId = req?.body?.parent_message_id
         const clientId = req?.body?.client_id
@@ -86,7 +88,8 @@ app.post("/chatgpt", async (req, res) => {
             apiKey: process.env.OPENAI_API_KEY,
             completionParams: {
                 model: 'text-davinci-003'
-            }
+            },
+            messageStore: map
         })
         let params = {
             promptPrefix: `You are ChatGPT, a large language model trained by OpenAI. For each answer, you should answer as comprehensively as possible. It is important to answer as comprehensively as possible, so keep this in mind.
