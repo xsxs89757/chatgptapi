@@ -77,7 +77,6 @@ function sendEventsToAll(text, clientId) {
 
 app.post("/chatgpt", async (req, res) => {
     try{
-        const conversationId = req?.body?.conversation_id
         const parentMessageId = req?.body?.parent_message_id
         const clientId = req?.body?.client_id
         let subject = req?.body?.subject
@@ -101,20 +100,19 @@ app.post("/chatgpt", async (req, res) => {
         }
 
         let response
-        if (conversationId && parentMessageId){
+        if (parentMessageId){
             response = await api.sendMessage(subject, {
-                conversationId,
                 parentMessageId,
                 ...params
             })
+            console.log(response);
         }else{
             response = await api.sendMessage(subject, params)
         }
-        console.log(response);
+        
         sendEventsToAll("[DONE]", clientId)
         return res.json({ code: 0, msg:'success' , data: {
             content : response.text,
-            conversation_id: response.conversationId,
             parent_message_id : response.id,
             server: 1
         }})
