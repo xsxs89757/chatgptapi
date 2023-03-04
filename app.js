@@ -105,7 +105,6 @@ app.post("/chatgpt", async (req, res) => {
                 parentMessageId,
                 ...params
             })
-            console.log(response);
         }else{
             response = await api.sendMessage(subject, params)
         }
