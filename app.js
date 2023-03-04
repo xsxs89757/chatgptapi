@@ -108,7 +108,7 @@ app.post("/chatgpt", async (req, res) => {
         }else{
             response = await api.sendMessage(subject, params)
         }
-        
+        console.log(subject);
         sendEventsToAll("[DONE]", clientId)
         return res.json({ code: 0, msg:'success' , data: {
             content : response.text,
