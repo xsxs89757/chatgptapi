@@ -75,6 +75,11 @@ function sendEventsToAll(text, clientId) {
     })
 }
 
+const api = new ChatGPTAPI({ 
+    apiKey: process.env.OPENAI_API_KEY,
+    messageStore: map
+})
+
 app.post("/chatgpt", async (req, res) => {
     try{
         const parentMessageId = req?.body?.parent_message_id
@@ -83,13 +88,7 @@ app.post("/chatgpt", async (req, res) => {
         if(!subject){
             return res.json({ code: 1, msg: 'subject error' })
         }
-        const api = new ChatGPTAPI({ 
-            apiKey: process.env.OPENAI_API_KEY,
-            // completionParams: {
-            //     model: 'text-davinci-003'
-            // },
-            messageStore: map
-        })
+        
         let params = {
             // promptPrefix: `You are ChatGPT, a large language model trained by OpenAI. For each answer, you should answer as comprehensively as possible. It is important to answer as comprehensively as possible, so keep this in mind.
             // Current date: ${new Date().toISOString()}\n\n`,
