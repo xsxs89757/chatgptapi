@@ -77,7 +77,12 @@ function sendEventsToAll(text, clientId) {
 
 const api = new ChatGPTAPI({ 
     apiKey: process.env.OPENAI_API_KEY,
-    messageStore: map
+    messageStore: map,
+    completionParams: {
+        model: 'gpt-4',
+        temperature: 0.5,
+        top_p: 0.8
+    }
 })
 
 app.post("/chatgpt", async (req, res) => {
